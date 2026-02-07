@@ -41,9 +41,6 @@ def logout_user(request):
     return JsonResponse(data)
 
 
-
-
-
 @csrf_exempt
 def registration(request):
     context = {}
