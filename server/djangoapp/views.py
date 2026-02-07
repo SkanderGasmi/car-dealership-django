@@ -13,7 +13,7 @@ import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .populate import initiate
-from .restapis import get_request, analyze_review_sentiments, post_request
+from .restapis import get_request, analyze_review_sentiments, post_review  # CHANGED: post_review NOT post_request
 
 logger = logging.getLogger(__name__)
 
@@ -130,56 +130,7 @@ def get_dealer_reviews(request, dealer_id):
     
     return JsonResponse({"status": 200, "reviews": analyzed_reviews})
 
-# Create a `add_review` view to submit a review
-@csrf_exempt
-def add_review(request, dealer_id):
-    if request.method == "POST":
-        try:
-            if not request.user.is_authenticated:
-                return JsonResponse({"status": 401, "message": "User not authenticated"}, status=401)
-            
-            data = json.loads(request.body)
-            
-            # Create review payload
-            review_payload = {
-                "dealership": dealer_id,
-                "name": request.user.get_full_name() or request.user.username,
-                "purchase": data.get("purchase", False),
-                "review": data.get("review", "")
-            }
-            
-            # Add purchase details if purchase is true
-            if data.get("purchase", False):
-                review_payload["purchase_date"] = data.get("purchase_date", "")
-                review_payload["car_make"] = data.get("car_make", "")
-                review_payload["car_model"] = data.get("car_model", "")
-                review_payload["car_year"] = data.get("car_year", "")
-            
-            # Analyze sentiment
-            sentiment_result = analyze_review_sentiments(review_payload["review"])
-            review_payload["sentiment"] = sentiment_result.get('sentiment', 'neutral')
-            
-            # Post the review
-            endpoint = "/postReview"
-            response = post_request(endpoint, review_payload)
-            
-            if "error" in response:
-                return JsonResponse({"status": 500, "message": response["error"]}, status=500)
-            
-            return JsonResponse({"status": 201, "message": "Review added successfully", "review": response})
-            
-        except json.JSONDecodeError:
-            return JsonResponse({"status": 400, "message": "Invalid JSON data"}, status=400)
-        except Exception as e:
-            return JsonResponse({"status": 500, "message": str(e)}, status=500)
-    
-    return JsonResponse({"status": 405, "message": "Method not allowed"}, status=405)
-
-
-    # Add this import at the top
-from .restapis import get_request, analyze_review_sentiments, post_review
-
-# Replace your existing add_review function with this EXACT Coursera code:
+# Create a `add_review` view to submit a review - EXACT COURSERA CODE
 @csrf_exempt
 def add_review(request):
     if request.user.is_anonymous == False:
