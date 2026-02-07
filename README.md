@@ -1,4 +1,3 @@
-````md
 # Best Cars Dealership Review Platform
 
 ![Django](https://img.shields.io/badge/Django-4.2-orange)
