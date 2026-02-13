@@ -1,4 +1,3 @@
-````md
 # Best Cars Dealership Review Platform
 
 ![Django](https://img.shields.io/badge/Django-4.2-orange)
@@ -309,17 +308,3 @@ docker-compose up --build
 
 ---
 
-## License
-
-This project is licensed under the MIT License.
-
-```
-
-If you want next:
-- I can **design the PNG architecture diagrams** (ready to drop into `docs/`)
-- Align this README exactly to **IBM Capstone grading rubrics**
-- Create a **short recruiter-facing README version**
-- Add **badges for CI/CD and Docker builds**
-
-Say which one.
-```
